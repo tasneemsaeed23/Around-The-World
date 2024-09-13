@@ -1,12 +1,10 @@
 import "./App.css";
-import Logo from "./components/Logo";
-import ThemeSwithcer from "./components/ThemeSwithcer";
+import Header from "./components/Header";
 
 function App() {
   return (
-    <div className="font-inter">
-      <Logo />
-      <ThemeSwithcer />
+    <div className="font-inter dark:text-gray-100">
+      <Header />
     </div>
   );
 }
