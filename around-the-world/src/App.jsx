@@ -8,8 +8,10 @@ import ShowMessage from "./components/ShowMessage";
 
 function App() {
   const [countriesList, setCountriesList] = useState([]);
+  const [filteredCountries, setFilteredCountries] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+
   useEffect(() => {
     fetchCountriesData();
   }, []);
@@ -21,12 +23,14 @@ function App() {
       .then((data) => {
         console.log(data);
         setCountriesList(data);
+        setFilteredCountries(data); // Initial filtering is the same as all countries
       })
       .catch(() => setIsError(true))
       .finally(() => setIsLoading(false));
   };
+
   return (
-    <div className="min-h-scree w-screen bg-gray-100 font-inter dark:bg-gray-900 dark:text-gray-100">
+    <div className="min-h-screen w-screen bg-gray-100 font-inter dark:bg-gray-900 dark:text-gray-100">
       <Header />
       <div className="container mx-auto px-5 md:px-0">
         {isError && <ShowMessage message="Something went wrong!" />}
@@ -35,16 +39,14 @@ function App() {
           <>
             <div className="flex flex-col justify-between gap-10 md:h-14 md:flex-row md:gap-0">
               <SearchInput />
-              <RegionMenu />
+              <RegionMenu
+                countriesList={countriesList}
+                filterCountriesList={setFilteredCountries}
+              />
             </div>
-            <CountryList data={CountryList} />
+            <CountryList data={filteredCountries} />
           </>
         )}
-        <div className="flex flex-col justify-between gap-10 md:h-14 md:flex-row md:gap-0">
-          <SearchInput />
-          <RegionMenu />
-        </div>
-        <CountryList data={countriesList} />
       </div>
     </div>
   );
